@@ -17,21 +17,51 @@ import java.util.Collection;
  * 
  * getLocalHost(): regresa la direccion ip de la maquina donde se esta ejecutando el programa.
  * 
- * getAllByName(host):Regresa un arreglo de objetos de tipo InetAddress. Este m�todo es �til en caso de 
- * que quieras averiguar todas las direcciones IP que tenga asignada una m�quina en particular.
+ * getAllByName(host):Regresa un arreglo de objetos de tipo InetAddress. Este m�todo es �til en caso de 
+ * que quieras averiguar todas las direcciones IP que tenga asignada una m�quina en particular.
  *
  * Todos arrojan la excepcion UnknowHostException en caso de no encontrar la direccion.
  */
 
+/**
+ * Clase que representa al servidor de la aplicación al cual se conectarán los clientes.
+ */
 public class Server {
 
+	/**
+	 * Permite establecer el enlace desde el servidor hacia el cliente.
+	 */
     private ServerSocket servidor;
+    
+    /**
+     * Permite establecer el enlace desde el cliente hacia el servidor.
+     */
     private Socket cliente;
+    
+    /**
+     * Determina la cantidad de clientes conectados.
+     */
     public static int cantActualClientes;
     private Collection<Socket> coleccion;
+    
+    /**
+     * Determina la cantidad máxima de clientes conectados al mismo tiempo que soportará el servidor.
+     */
     private int max_clientes;
+    
+    /**
+     * Número de puerto por elque se realiza la conexión.
+     */
     private int puerto;
+    
+    /**
+     * Nombre del servidor.
+     */
     private String nombreHost;
+    
+    /**
+     * IP del servidor.
+     */
     private String IPHost;
 
     public String getNombreHost() {
@@ -61,7 +91,6 @@ public class Server {
 
         puerto = port;
         max_clientes = max_conexiones;
-
         cantActualClientes = 0;
         coleccion = new ArrayList<Socket>();
 
@@ -77,10 +106,13 @@ public class Server {
         return coleccion;
     }
 
+    /**
+     * Acepta la conección solicitada por el cliente.
+     * @return
+     */
     public Socket aceptarConexion() {
 
         cantActualClientes++;
-
         try {
             cliente = servidor.accept();
             if (cantActualClientes > max_clientes) {
@@ -99,6 +131,9 @@ public class Server {
         return cliente;
     }
 
+    /**
+     * Detiene la ejecución del servidor.
+     */
     public void pararServidor() {
         try {
             servidor.close();

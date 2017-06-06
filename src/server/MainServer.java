@@ -6,6 +6,7 @@ import java.net.Socket;
 
 public class MainServer {
     public static void main(String[] args) {
+    	
         Socket socket = null;
 
         Server servidor = null;
