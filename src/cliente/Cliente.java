@@ -49,13 +49,16 @@ public class Cliente {
             puerto = port;
             cliente = new Socket(direccion, port);
         } catch (IOException e) {
-            System.out
-                    .println("No se pudo conectar con el servidor, cerrando el  programa...");
+            System.out.println("No se pudo conectar con el servidor, cerrando el  programa...");
             System.exit(1);
         }
     }
 
-    public Socket getSocket() {
+    public Cliente() {
+		
+	}
+
+	public Socket getSocket() {
         return cliente;
     }
 

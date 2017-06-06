@@ -9,6 +9,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import cliente.Cliente;
+
 
 // Nombre e IP del Servidor
 /* getByName(host): regresa la direccion ip de la maquina que se especifica como parametro.
@@ -37,8 +39,9 @@ public class Server {
      * Permite establecer el enlace desde el cliente hacia el servidor.
      */
     private Socket cliente;
-    
-    /**
+
+
+	/**
      * Determina la cantidad de clientes conectados.
      */
     public static int cantActualClientes;
@@ -63,6 +66,10 @@ public class Server {
      * IP del servidor.
      */
     private String IPHost;
+    /**
+     * Campo usado para tener acceso a los datos del usuario.
+     */
+    private Cliente datosCliente;
 
     public String getNombreHost() {
         return nombreHost;
@@ -72,25 +79,26 @@ public class Server {
         return IPHost;
     }
 
-    public int getMax_clientes() {
-        return max_clientes;
-    }
 
     public int getPuerto() {
         return puerto;
     }
-
-    public Server(int port, int max_conexiones) {
-
+    
+    public Socket getCliente() {
+		return cliente;
+	}
+    
+    public Server(String ip,int port) {
+/*
         try {
             nombreHost = InetAddress.getLocalHost().getHostName().toString();
             IPHost = InetAddress.getLocalHost().getHostAddress().toString();
         } catch (UnknownHostException e1) {
             e1.printStackTrace();
         }
-
+*/
+    	IPHost = ip;
         puerto = port;
-        max_clientes = max_conexiones;
         cantActualClientes = 0;
         coleccion = new ArrayList<Socket>();
 
@@ -113,14 +121,9 @@ public class Server {
     public Socket aceptarConexion() {
 
         cantActualClientes++;
+        
         try {
-            cliente = servidor.accept();
-            if (cantActualClientes > max_clientes) {
-                PrintStream ps = new PrintStream(cliente.getOutputStream());
-                ps.println("Servidor Lleno");
-                cliente.close();
-                return null;
-            }
+        	cliente = servidor.accept();
         } catch (Exception e) {
             System.out.println("Error al aceptar conexiones, Cerrando el Servidor...");
             System.exit(1);
@@ -128,10 +131,12 @@ public class Server {
         System.out.println("La Conexion NRO " + cantActualClientes
                 + " fue aceptada correctamente.");
         coleccion.add(cliente);
+        
         return cliente;
     }
 
-    /**
+
+	/**
      * Detiene la ejecución del servidor.
      */
     public void pararServidor() {
@@ -141,4 +146,6 @@ public class Server {
             e.printStackTrace();
         }
     }
+    
+    
 }

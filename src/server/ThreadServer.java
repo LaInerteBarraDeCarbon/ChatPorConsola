@@ -11,12 +11,14 @@ public class ThreadServer extends Thread {
 
     private Socket socket;
     private Collection<Socket> coleccion;
+    private VentanaServidor vs;
     
-    public ThreadServer(Socket socket, Collection<Socket> coleccion) {
+    public ThreadServer(Socket socket, Collection<Socket> coleccion, VentanaServidor vs) {
 
         super("ThreadServer");
         this.socket = socket;
         this.coleccion = coleccion;
+        this.vs = vs;
     }
 
     @SuppressWarnings("deprecation")
@@ -42,9 +44,10 @@ public class ThreadServer extends Thread {
                             // coleccion menos el que envio dicho msg.
                             if (!cliente.equals(socket)) {
                             	
-                                PrintStream ps = new PrintStream(cliente.getOutputStream());
-                                ps.println(aux);// envia el mensaje al
+                                PrintStream os = new PrintStream(cliente.getOutputStream());
+                                os.println(aux);// envia el mensaje al
                                                 // correspondiente socket.
+                                
                             }
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -54,6 +57,8 @@ public class ThreadServer extends Thread {
                 // indico que el flujo de informacion provenga del usuario de
                 // este hilo.
                 data = new DataInputStream(socket.getInputStream());
+                if(aux != null)
+                	vs.escribirTextArea(aux + "\n");
 
             } while ((aux = data.readLine()) != null);
 

@@ -85,7 +85,7 @@ public class VentanaCliente extends JFrame {
 		enviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				cliente.enviarMensaje(text.getText());
-				area.append(cliente.getNombre() + " :" + text.getText() + "\n");
+				area.append(cliente.getNombre() + ": " + text.getText() + "\n");
 				text.setText(null);
 			}
 		});
