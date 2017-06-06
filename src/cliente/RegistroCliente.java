@@ -18,16 +18,51 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+/**
+ * Clase que efectua el registro del cliente.
+ */
 public class RegistroCliente extends JFrame {
 
+	/**
+	 * Panel contenedor los elementos de la ventana de chat.
+	 */
 	private JPanel contentPane;
+	
+	/**
+	 * Campo para ingresar la ip de conexión.
+	 */
 	private JTextField ip;
+	
+	/**
+	 * Campo para ingresar el puerto de conexión.
+	 */
 	private JTextField puer;
+	
+	/**
+	 * Campo para ingresar el usuario.
+	 */
 	private JTextField user;
+	
 	private VentanaCliente vc;
+	
+	/**
+	 * Boton que dispara el registro.
+	 */
 	private JButton reg;
+	
+	/**
+	 * Es el cliente que se registra.
+	 */
 	Cliente cliente;
+	
+	/**
+	 * Número de puerto para la conexión.
+	 */
 	int puerto;
+	
+	/**
+	 * Nombre o IP del servidor para la conexión.
+	 */
 	String host;
 	
 	public static void main(String[] args) {
@@ -43,8 +78,10 @@ public class RegistroCliente extends JFrame {
 		});
 	}
 
+	/**
+	 * Lógica de registro del cliente.
+	 */
 	public RegistroCliente() {
-		
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -108,10 +145,6 @@ public class RegistroCliente extends JFrame {
 		});
 		reg.setBounds(159, 199, 129, 23);
 		contentPane.add(reg);
-
-       
-
-
 
        }
 }

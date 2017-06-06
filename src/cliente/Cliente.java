@@ -10,11 +10,26 @@ import java.util.Calendar;
 import javax.management.OperationsException;
 import javax.swing.JOptionPane;
 
+/**
+ * Clase que representa al cliente que se conecta al servidor.
+ */
 public class Cliente {
 
+	/**
+	 * Permite establecer el enlace desde el cliente hacia el servidor.
+	 */
     private Socket cliente;
+    /**
+     * Nombre del cliente.
+     */
     private String nombre = null;
+    /**
+     * Numero del puerto por el que se realiza la conexión.
+     */
     private int puerto;
+    /*
+     * Mensaje del chat que envía el cliente.
+     */
     private String mensaje;
 
     public String getMensaje() {
@@ -51,10 +66,15 @@ public class Cliente {
     	return this.nombre;
     }
 
+    /**
+     * Envía el mensaje que escribe el cliente.
+     * @param mensaje
+     * 					mensaje que envía el cliente.
+     */
     public void enviarMensaje(String mensaje) {
         try {
                        
-          //Se lee desde el host del usuario y dirige el flujo o informaci�n al server
+          //Se lee desde el host del usuario y dirige el flujo o informaci�n al server
             PrintStream ps = new PrintStream(cliente.getOutputStream());
 
             String data = mensaje;
@@ -77,6 +97,9 @@ public class Cliente {
         }
     }
 
+    /**
+     * Cierra la sesion del cliente.
+     */
     public void cerrarCliente() {
         try {
             cliente.close();
@@ -85,6 +108,10 @@ public class Cliente {
         }
     }
 
+    /**
+     * Captura la fecha-hora del mensaje.
+     * @return
+     */
     public static String horaDelMensaje() {
         Calendar cal = Calendar.getInstance();
         return +cal.get(Calendar.HOUR_OF_DAY) + ":" + cal.get(Calendar.MINUTE)

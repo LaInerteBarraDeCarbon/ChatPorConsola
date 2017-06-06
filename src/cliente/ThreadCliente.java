@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ThreadCliente extends Thread {
+	
     private Socket socket;
     private VentanaCliente vc;
     private Cliente cliente;

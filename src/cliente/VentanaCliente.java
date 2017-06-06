@@ -30,6 +30,9 @@ import java.awt.event.FocusEvent;
 
 public class VentanaCliente extends JFrame {
 
+	/**
+	 * Panel contenedor los elementos de la ventana de chat.
+	 */
 	private JPanel contentPane;
 	private JTextField text;
 	private JButton enviar;
@@ -41,6 +44,7 @@ public class VentanaCliente extends JFrame {
 		this.mensaje = mensaje;
 		area.append(this.mensaje + "\n");
 	}
+	
 	public VentanaCliente(Cliente cli) {
 		
 		this.cliente = cli;
@@ -103,5 +107,4 @@ public class VentanaCliente extends JFrame {
 		
 	}
 	
-
 }
