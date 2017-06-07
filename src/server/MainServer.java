@@ -76,7 +76,7 @@ public class MainServer {
 		 while (true) {
 	            socket = servidor.aceptarConexion();
 	            if (socket != null){
-	            	vs.escribirTextArea("Nuevo usuario conectado");
+	            	vs.escribirTextArea("Nuevo usuario conectado \n");
 	                new ThreadServer(socket, servidor.getLista(),vs).start();
 	                
 	            }

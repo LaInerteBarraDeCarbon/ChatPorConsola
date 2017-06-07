@@ -1,110 +1,186 @@
 package cliente;
-
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import server.VentanaConfiguracion;
+
+import javax.swing.DefaultListModel;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JToolBar;
+import javax.swing.JScrollPane;
 import javax.swing.JLabel;
-import javax.swing.SwingConstants;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.JButton;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
+import javax.swing.JList;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import javax.swing.DropMode;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
 
 public class VentanaCliente extends JFrame {
 
-	/**
-	 * Panel contenedor los elementos de la ventana de chat.
-	 */
 	private JPanel contentPane;
-	private JTextField text;
-	private JButton enviar;
+	private JList<String> listUsuarios;
+	private JLabel lblUsuarios;
 	private Cliente cliente;
-	private String mensaje;
-	private JTextArea area;
-		
-	public void setArea(String mensaje){
-		this.mensaje = mensaje;
-		area.append(this.mensaje + "\n");
+
+	/**
+	 * Launch the application.
+	 */
+/*	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					VentanaCliente frame = new VentanaCliente(cliente);
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
-	
-	public VentanaCliente(Cliente cli) {
+*/
+	/**
+	 * Create the frame.
+	 */
+	public VentanaCliente(final Cliente cliente) {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent arg0) {
+				abrirVentanaConfirmaSalir();
+			}
+		});
 		
-		this.cliente = cli;
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		try
+		{
+		   UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+		}
+		catch (Exception e)
+		{
+		   e.printStackTrace();
+		}
+		
+		setTitle("Chat");
+		setResizable(false);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 379, 526);
+		
+		JMenuBar menuBar = new JMenuBar();
+		setJMenuBar(menuBar);
+		
+		JMenu mnArchivo = new JMenu("Archivo");
+		menuBar.add(mnArchivo);
+		
+		JMenuItem mntmConectar = new JMenuItem("Conectar");
+		mnArchivo.add(mntmConectar);
+		
+		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				abrirVentanaConfirmaSalir();
+			}
+		});
+		mnArchivo.add(mntmSalir);
+		
+		JMenu mnChat = new JMenu("Chat");
+		menuBar.add(mnChat);
+		
+		JMenuItem mntmSalaDeChat = new JMenuItem("Sala de Chat");
+		mntmSalaDeChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				new VentanaChat(cliente,"", "Sala");
+			}
+		});
+		mnChat.add(mntmSalaDeChat);
+		
+		JMenuItem mntmSesionPrivada = new JMenuItem("Sesión privada");
+		mntmSesionPrivada.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				seleccionarElementoLista(cliente);
+			}
+		});
+		mnChat.add(mntmSesionPrivada);
+		
+		JMenu mnAyuda = new JMenu("Ayuda");
+		menuBar.add(mnAyuda);
+		
+		JMenuItem mntmConfigIpPuerto = new JMenuItem("Configurar IP-Puerto");
+		mntmConfigIpPuerto.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				abrirVentanaConfiguracion();
+			}
+		});
+		mnAyuda.add(mntmConfigIpPuerto);
+		
+		JMenuItem mntmAcerca = new JMenuItem("Acerca");
+		mnAyuda.add(mntmAcerca);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel chat = new JLabel("CHAT");
-		chat.setBounds(5, 5, 424, 14);
-		chat.setHorizontalAlignment(SwingConstants.CENTER);
-		contentPane.add(chat);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(5, 30, 419, 170);
+		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(0, 0, 373, 462);
 		contentPane.add(scrollPane);
 		
-		area = new JTextArea();
-		area.setEditable(false);
-		scrollPane.setViewportView(area);
-		
-		text = new JTextField();
-		text.setBounds(5, 210, 297, 20);
-		text.addKeyListener(new KeyAdapter() {
+		listUsuarios = new JList<String>();
+		listUsuarios.addMouseListener(new MouseAdapter() {
 			@Override
-			public void keyPressed(KeyEvent key) {
-				if(key.getKeyCode() == KeyEvent.VK_ENTER){
-					enviar.doClick();
-				}
+			public void mouseClicked(MouseEvent arg0) {
+				seleccionaDobleClickChat(arg0);
 			}
 		});
-		contentPane.add(text);
-		text.setColumns(10);
-		enviar = new JButton("ENVIAR");
-		enviar.setBounds(335, 211, 89, 23);																												/**vale**/
-		enviar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				cliente.enviarMensaje(text.getText());
-				area.append(cliente.getNombre() + ": " + text.getText() + "\n");
-				text.setText(null);
-			}
-		});
-		enviar.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent key) {
-				if(key.getKeyCode() == KeyEvent.VK_ENTER){
-					enviar.doClick();
-				}
-			}
-		});
-		contentPane.add(enviar);
-		addWindowListener(new WindowAdapter(){
-			public void windowClosing(WindowEvent event){
-				cliente.cerrarCliente();
-				dispose();	
-			}
-		});
+		scrollPane.setViewportView(listUsuarios);
+
+		lblUsuarios = new JLabel("Cantidad de Usuarios conectados: ");
+		lblUsuarios.setBounds(0, 464, 373, 14);
+		contentPane.add(lblUsuarios);
 		
+		String str[]={"Pepe", "Juan", "Julio", "Lucas", "Leo"};
+		agregaUsuariosEnLista(str);
+		
+		setVisible(true);
 	}
 	
+	private void abrirVentanaConfirmaSalir() {
+		int opcion = JOptionPane.showConfirmDialog(this, "Desea salir del Chat", "Confirmación", JOptionPane.YES_NO_OPTION);
+		if(opcion == JOptionPane.YES_OPTION)
+			System.exit(0);
+	}
+	
+	public void agregaUsuariosEnLista(String str[]) {
+		DefaultListModel<String> modeloLista = new DefaultListModel<String>();
+		for(String item : str)
+			modeloLista.addElement(item);
+		listUsuarios.setModel(modeloLista);
+		lblUsuarios.setText("Cantidad de Usuarios Conectados: " + modeloLista.getSize());
+	}
+	
+	private void seleccionarElementoLista(Cliente cliente) {
+		if(!listUsuarios.isSelectionEmpty())
+			new VentanaChat(cliente,listUsuarios.getSelectedValue(), "Chat");
+		else
+			JOptionPane.showMessageDialog(this, "Seleccione un elemento de la lista", "Seleccionar Usuario", JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	private void abrirVentanaConfiguracion() {
+		new VentanaConfiguracion();
+	}
+	
+	private void seleccionaDobleClickChat(MouseEvent me) {
+		if(me.getClickCount() == 2)
+			new VentanaChat(cliente,listUsuarios.getSelectedValue(), "Chat");
+	}
 }

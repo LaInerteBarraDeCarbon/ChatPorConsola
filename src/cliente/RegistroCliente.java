@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
@@ -43,8 +44,6 @@ public class RegistroCliente extends JFrame {
 	 */
 	private JTextField user;
 	
-	private VentanaCliente vc;
-	
 	/**
 	 * Boton que dispara el registro.
 	 */
@@ -64,6 +63,8 @@ public class RegistroCliente extends JFrame {
 	 * Nombre o IP del servidor para la conexión.
 	 */
 	String host;
+	
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -138,9 +139,8 @@ public class RegistroCliente extends JFrame {
 		        cliente = new Cliente(host, puerto);
 		        cliente.setNombre(user.getText());
 		        new ThreadCliente(cliente.getSocket(),cliente).start();
-//				vc = new VentanaCliente(cliente);
-//				vc.setVisible(true);
-				dispose();
+		        dispose();
+				
 			}
 		});
 		reg.setBounds(159, 199, 129, 23);

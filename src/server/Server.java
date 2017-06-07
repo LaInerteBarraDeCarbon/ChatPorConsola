@@ -8,6 +8,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import cliente.Cliente;
 
@@ -67,9 +68,10 @@ public class Server {
      */
     private String IPHost;
     /**
-     * Campo usado para tener acceso a los datos del usuario.
+     * Lista de conectados.
      */
-    private Cliente datosCliente;
+    private List<Cliente> contactos = new ArrayList<Cliente>();
+    
 
     public String getNombreHost() {
         return nombreHost;
@@ -124,6 +126,7 @@ public class Server {
         
         try {
         	cliente = servidor.accept();
+        	
         } catch (Exception e) {
             System.out.println("Error al aceptar conexiones, Cerrando el Servidor...");
             System.exit(1);

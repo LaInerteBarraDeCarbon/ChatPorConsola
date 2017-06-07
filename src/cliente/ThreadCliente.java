@@ -7,7 +7,8 @@ import java.net.Socket;
 public class ThreadCliente extends Thread {
 	
     private Socket socket;
-    private VentanaCliente vc;
+    private VentanaChat ventanaChat;
+    private VentanaCliente ventanaCliente;
     private Cliente cliente;
     
     public ThreadCliente(Socket socket, Cliente cliente) {
@@ -20,12 +21,16 @@ public class ThreadCliente extends Thread {
     public void run() {
         DataInputStream datos;
         String temp = null;
-        vc = new VentanaCliente(this.cliente);
-        vc.setVisible(true);
+//      ventanaChat = new VentanaChat("", "Sala");
+//      ventanaChat.setVisible(true);
+        
+        ventanaCliente = new VentanaCliente(cliente);
+        ventanaCliente.setVisible(true);
+
         try {
             do {
                 if (temp != null){
-                	vc.setArea(temp);
+                	ventanaChat.escribeEnTextArea(temp);
                }
                 datos = new DataInputStream(socket.getInputStream());
             } while ((temp = datos.readLine()) != null);

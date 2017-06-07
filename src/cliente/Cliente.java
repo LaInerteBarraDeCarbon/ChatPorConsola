@@ -43,21 +43,6 @@ public class Cliente {
 	public int getPuerto() {
         return puerto;
     }
-
-    public Cliente(String direccion, int port) {
-        try {
-            puerto = port;
-            cliente = new Socket(direccion, port);
-        } catch (IOException e) {
-            System.out.println("No se pudo conectar con el servidor, cerrando el  programa...");
-            System.exit(1);
-        }
-    }
-
-    public Cliente() {
-		
-	}
-
 	public Socket getSocket() {
         return cliente;
     }
@@ -68,6 +53,21 @@ public class Cliente {
     public String getNombre(){
     	return this.nombre;
     }
+
+    public Cliente(String direccion, int port) {
+        try {
+            puerto = port;
+            cliente = new Socket(direccion, port);
+            
+            		
+        } catch (IOException e) {
+            System.out.println("No se pudo conectar con el servidor, cerrando el  programa...");
+            System.exit(1);
+        }
+    }
+
+
+
 
     /**
      * Envía el mensaje que escribe el cliente.

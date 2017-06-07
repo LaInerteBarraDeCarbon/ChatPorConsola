@@ -2,6 +2,7 @@ package server;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.PrintStream;
 import java.net.Socket;
 import java.util.Collection;
@@ -25,6 +26,7 @@ public class ThreadServer extends Thread {
     public void run() {
 
         DataInputStream data;
+        ObjectInputStream objeto = null;
         Iterator<Socket> i;
         String aux = null;
 
@@ -59,6 +61,7 @@ public class ThreadServer extends Thread {
                 data = new DataInputStream(socket.getInputStream());
                 if(aux != null)
                 	vs.escribirTextArea(aux + "\n");
+                	
 
             } while ((aux = data.readLine()) != null);
 
