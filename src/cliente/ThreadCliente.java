@@ -20,9 +20,8 @@ public class ThreadCliente extends Thread {
     @SuppressWarnings("deprecation")
     public void run() {
         DataInputStream datos;
+        
         String temp = null;
-//      ventanaChat = new VentanaChat("", "Sala");
-//      ventanaChat.setVisible(true);
         
         ventanaCliente = new VentanaCliente(cliente);
         ventanaCliente.setVisible(true);

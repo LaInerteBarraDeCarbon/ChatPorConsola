@@ -46,7 +46,7 @@ public class VentanaConfiguracion extends JDialog {
 	 * Create the dialog.
 	 */
 	public VentanaConfiguracion() {
-		adp = new ArchivoDePropiedades("config.properties");
+		adp = new ArchivoDePropiedades("configServer.properties");
 		
 		setTitle("Configurar IP + Puerto");
 		setAlwaysOnTop(true);

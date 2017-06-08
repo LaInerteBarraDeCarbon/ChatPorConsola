@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import javax.management.OperationsException;
 import javax.swing.JOptionPane;
@@ -27,7 +29,20 @@ public class Cliente {
      * Numero del puerto por el que se realiza la conexión.
      */
     private int puerto;
-    /*
+    /**
+     * Lista de los usuarios conectados
+     */
+    private List<String> conectados = new ArrayList<String>();
+    
+    /**
+     * Devuelve la lista de conectados
+     * @return
+     */
+    public List<String> getConectados() {
+		return conectados;
+	}
+
+	/**
      * Mensaje del chat que envía el cliente.
      */
     private String mensaje;
@@ -54,10 +69,11 @@ public class Cliente {
     	return this.nombre;
     }
 
-    public Cliente(String direccion, int port) {
+    public Cliente(String direccion, int port, String Usuario) {
         try {
             puerto = port;
             cliente = new Socket(direccion, port);
+            conectados.add(Usuario);
             
             		
         } catch (IOException e) {

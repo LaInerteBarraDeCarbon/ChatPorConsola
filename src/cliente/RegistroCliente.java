@@ -5,10 +5,13 @@ import java.awt.EventQueue;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import server.ArchivoDePropiedades;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -63,6 +66,10 @@ public class RegistroCliente extends JFrame {
 	 * Nombre o IP del servidor para la conexión.
 	 */
 	String host;
+	/**
+	 * Archivo de configuracion
+	 */
+	private ArchivoDePropiedades adp;
 	
 	
 	
@@ -83,7 +90,7 @@ public class RegistroCliente extends JFrame {
 	 * Lógica de registro del cliente.
 	 */
 	public RegistroCliente() {
-
+		adp = new ArchivoDePropiedades("configCliente.properties");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -136,15 +143,27 @@ public class RegistroCliente extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				host = ip.getText();
 				puerto = Integer.parseInt(puer.getText());
-		        cliente = new Cliente(host, puerto);
+		        cliente = new Cliente(host, puerto, user.getText());
 		        cliente.setNombre(user.getText());
 		        new ThreadCliente(cliente.getSocket(),cliente).start();
+//		        ActualizarListaConectados(cliente.getConectados());
+		        adp.escritura(host, puerto);
 		        dispose();
 				
 			}
+
 		});
 		reg.setBounds(159, 199, 129, 23);
 		contentPane.add(reg);
+		
+		adp.lectura();
+		ip.setText(adp.getIP());
+		puer.setText("" + adp.getPuerto());
 
        }
+
+	protected void ActualizarListaConectados(List<String> conectados) {
+//		new ThreadCliente(cliente.getSocket(),cliente).start();
+		
+	}
 }

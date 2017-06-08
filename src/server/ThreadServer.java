@@ -47,8 +47,9 @@ public class ThreadServer extends Thread {
                             if (!cliente.equals(socket)) {
                             	
                                 PrintStream os = new PrintStream(cliente.getOutputStream());
-                                os.println(aux);// envia el mensaje al
-                                                // correspondiente socket.
+                                os.println(aux);
+                                // envia el mensaje al
+                                // correspondiente socket.
                                 
                             }
                         } catch (IOException e) {
