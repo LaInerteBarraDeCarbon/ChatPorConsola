@@ -15,6 +15,8 @@ public class ThreadCliente extends Thread {
         super("ThreadCliente");
         this.socket = socket;
         this.cliente = cliente;
+        ventanaCliente = new VentanaCliente(cliente);
+        ventanaCliente.setVisible(true);
     }
     
     @SuppressWarnings("deprecation")
@@ -22,9 +24,6 @@ public class ThreadCliente extends Thread {
         DataInputStream datos;
         
         String temp = null;
-        
-        ventanaCliente = new VentanaCliente(cliente);
-        ventanaCliente.setVisible(true);
 
         try {
             do {

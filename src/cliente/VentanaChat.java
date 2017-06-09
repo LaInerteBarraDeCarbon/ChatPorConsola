@@ -123,7 +123,7 @@ public class VentanaChat extends JFrame {
 	}
 	
 	public void escribeEnTextArea(String text) {
-		textArea.setCaretPosition(textArea.getText().length());
+//		textArea.setCaretPosition(textArea.getText().length());
 		textArea.append(text + "\n");
 	}
 	
